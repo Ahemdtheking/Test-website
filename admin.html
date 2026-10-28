@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f6">
+  <meta name="description" content="Manage Noobytes Studio website content and project inquiries.">
+  <title>Admin dashboard | Noobytes Studio</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="site-data.js" defer></script>
+  <script src="admin.js" defer></script>
+</head>
+<body class="admin-body">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <a class="admin-brand" href="index.html"><span class="admin-brand-mark">N</span><span>Noobytes <small>STUDIO ADMIN</small></span></a>
+    <p class="sidebar-label">WORKSPACE</p>
+    <nav class="admin-nav" aria-label="Dashboard sections">
+      <button class="nav-item is-active" type="button" data-view="overview"><span aria-hidden="true">⌂</span>Overview</button>
+      <button class="nav-item" type="button" data-view="inquiries"><span aria-hidden="true">✉</span>Inquiries<span class="nav-count" id="unread-count">0</span></button>
+      <button class="nav-item" type="button" data-view="products"><span aria-hidden="true">▦</span>Products</button>
+      <button class="nav-item" type="button" data-view="services"><span aria-hidden="true">✳</span>Services</button>
+      <button class="nav-item" type="button" data-view="settings"><span aria-hidden="true">⚙</span>Site settings</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <span class="local-status"><i></i>Local browser storage</span>
+      <a href="index.html">← View public website</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-expanded="false" aria-controls="admin-sidebar" aria-label="Open dashboard menu">☰</button>
+      <div class="breadcrumbs">Noobytes Studio <span>/</span> <strong id="current-section">Overview</strong></div>
+      <div class="topbar-actions"><a class="preview-link" href="index.html" target="_blank" rel="noopener">Preview website <span aria-hidden="true">↗</span></a><span class="admin-avatar" aria-label="Admin">A</span></div>
+    </header>
+
+    <main class="admin-content">
+      <section class="view-panel is-visible" id="view-overview" aria-labelledby="welcome-title">
+        <div class="welcome-row"><div><p class="admin-eyebrow">YOUR STUDIO AT A GLANCE</p><h1 id="welcome-title">Welcome back <span>✦</span></h1><p class="muted">Here's what's happening with your website today.</p></div><div class="today-chip" id="today-label"></div></div>
+        <div class="metric-grid">
+          <article class="metric-card"><span class="metric-icon mint">✉</span><span class="metric-label">Total inquiries</span><strong id="metric-total">0</strong><small>Saved in this browser</small></article>
+          <article class="metric-card"><span class="metric-icon blue">◷</span><span class="metric-label">Needs attention</span><strong id="metric-new">0</strong><small>New inquiries to review</small></article>
+          <article class="metric-card"><span class="metric-icon violet">▦</span><span class="metric-label">Published products</span><strong id="metric-products">0</strong><small>Visible on your website</small></article>
+          <article class="metric-card"><span class="metric-icon amber">✳</span><span class="metric-label">Active services</span><strong id="metric-services">0</strong><small>Shown to prospective clients</small></article>
+        </div>
+        <div class="overview-grid">
+          <section class="panel activity-panel"><div class="panel-heading"><div><h2>Inquiry activity</h2><p>Inquiries received in the last 7 days</p></div><span class="chart-legend"><i></i>Inquiries</span></div><div class="chart-wrap"><div class="chart-y-labels"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div><div class="chart-area"><div class="chart-grid"><i></i><i></i><i></i><i></i><i></i></div><div class="chart-bars" id="chart-bars"></div><div class="chart-x-labels" id="chart-labels"></div></div></div></section>
+          <section class="panel quick-panel"><div class="panel-heading"><div><h2>Quick actions</h2><p>Common tasks, one click away.</p></div></div><button class="quick-action" type="button" data-action-view="products"><span class="quick-icon mint">＋</span><span><strong>Add a product</strong><small>Showcase an app or tool</small></span><span class="quick-arrow">→</span></button><button class="quick-action" type="button" data-action-view="services"><span class="quick-icon blue">✳</span><span><strong>Update a service</strong><small>Keep your offerings fresh</small></span><span class="quick-arrow">→</span></button><button class="quick-action" type="button" data-action-view="settings"><span class="quick-icon violet">⚙</span><span><strong>Edit site settings</strong><small>Update studio details</small></span><span class="quick-arrow">→</span></button></section>
+        </div>
+        <section class="panel recent-panel"><div class="panel-heading"><div><h2>Recent inquiries</h2><p>Keep up with new project conversations.</p></div><button class="text-button" type="button" data-action-view="inquiries">View all inquiries →</button></div><div class="table-scroll"><table><thead><tr><th>CONTACT</th><th>SERVICE</th><th>DATE</th><th>STATUS</th><th></th></tr></thead><tbody id="recent-inquiries"></tbody></table><p class="empty-state" id="recent-empty">No inquiries yet. New website submissions saved in this browser will appear here.</p></div></section>
+        <aside class="notice-banner"><span aria-hidden="true">ⓘ</span><p><strong>Local-only dashboard</strong> — products, services, settings, and inquiries are stored in this browser. This static website has no shared database or secure admin login.</p></aside>
+      </section>
+
+      <section class="view-panel" id="view-inquiries" aria-labelledby="inquiries-title">
+        <div class="page-heading"><div><p class="admin-eyebrow">STAY CLOSE TO EVERY CONVERSATION</p><h1 id="inquiries-title">Inquiries</h1><p class="muted">Review, search, and manage project requests.</p></div><button class="primary-button" type="button" id="export-csv">↓ Export CSV</button></div>
+        <div class="toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><input id="inquiry-search" type="search" placeholder="Search name, email, or project..." aria-label="Search inquiries"></label><label class="filter-label">Status <select id="inquiry-filter"><option value="all">All inquiries</option><option value="new">New</option><option value="replied">Replied</option><option value="in-progress">In progress</option><option value="closed">Closed</option></select></label></div>
+        <section class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>CONTACT</th><th>SERVICE</th><th>BUDGET</th><th>DATE RECEIVED</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="all-inquiries"></tbody></table><p class="empty-state" id="inquiries-empty">No inquiries match your search. Contact form submissions are saved on this browser only.</p></div></section>
+      </section>
+
+      <section class="view-panel" id="view-products" aria-labelledby="products-title">
+        <div class="page-heading"><div><p class="admin-eyebrow">YOUR APP COLLECTION</p><h1 id="products-title">Products</h1><p class="muted">Manage the apps and tools shown on your products page.</p></div><button class="primary-button" type="button" id="add-product">＋ Add product</button></div>
+        <div class="catalog-grid" id="products-grid"></div>
+      </section>
+
+      <section class="view-panel" id="view-services" aria-labelledby="services-title">
+        <div class="page-heading"><div><p class="admin-eyebrow">WHAT YOUR STUDIO OFFERS</p><h1 id="services-title">Services</h1><p class="muted">Edit your offerings and control which ones appear publicly.</p></div></div>
+        <div class="service-admin-list" id="services-list"></div>
+      </section>
+
+      <section class="view-panel" id="view-settings" aria-labelledby="settings-title">
+        <div class="page-heading"><div><p class="admin-eyebrow">MAKE IT YOURS</p><h1 id="settings-title">Site settings</h1><p class="muted">Update core studio information and homepage content.</p></div></div>
+        <form class="panel settings-form" id="settings-form">
+          <div class="settings-section-title"><span>01</span><div><h2>Studio details</h2><p>How clients can identify and contact you.</p></div></div>
+          <label>Studio name<input name="studioName" required maxlength="70"></label>
+          <label>Contact email<input name="email" type="email" required></label>
+          <div class="settings-section-title"><span>02</span><div><h2>Homepage content</h2><p>Keep the first impression up to date.</p></div></div>
+          <label>Hero headline<input name="heroTitle" required maxlength="140"></label>
+          <label>Hero description<textarea name="heroDescription" rows="3" required maxlength="400"></textarea></label>
+          <label>Call-to-action headline<input name="ctaTitle" required maxlength="140"></label>
+          <label class="switch-row"><span><strong>Accepting new projects</strong><small>Display your availability on the contact page.</small></span><input name="acceptingProjects" type="checkbox"><i></i></label>
+          <div class="settings-footer"><button class="secondary-button" type="button" id="reset-settings">Reset all local content</button><button class="primary-button" type="submit">Save changes</button></div>
+          <p class="inline-feedback" id="settings-feedback" role="status"></p>
+        </form>
+        <section class="panel backup-panel"><div><h2>Back up your dashboard</h2><p>Export products, services, inquiries, and settings to a JSON file, or restore a previous backup.</p></div><div class="backup-actions"><button class="secondary-button" type="button" id="export-backup">↓ Export backup</button><label class="secondary-button file-button">↑ Import backup<input id="import-backup" type="file" accept="application/json,.json"></label></div></section>
+      </section>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <dialog class="admin-dialog" id="product-dialog" aria-labelledby="product-dialog-title">
+    <form id="product-form" method="dialog">
+      <div class="dialog-heading"><div><p class="admin-eyebrow">PRODUCT DETAILS</p><h2 id="product-dialog-title">Add a product</h2></div><button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <input name="id" type="hidden">
+      <label>Product name<input name="name" required maxlength="70"></label>
+      <label>Category<input name="category" required maxlength="50" placeholder="e.g. Productivity"></label>
+      <label>Short description<textarea name="description" rows="3" required maxlength="220"></textarea></label>
+      <label>Details for the product dialog<textarea name="details" rows="4" required maxlength="500"></textarea></label>
+      <label class="switch-row"><span><strong>Visible on products page</strong><small>Hidden products stay saved in your dashboard.</small></span><input name="visible" type="checkbox"><i></i></label>
+      <div class="dialog-actions"><button class="secondary-button" type="button" data-close-dialog>Cancel</button><button class="primary-button" type="submit">Save product</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog" id="service-dialog" aria-labelledby="service-dialog-title">
+    <form id="service-form" method="dialog">
+      <div class="dialog-heading"><div><p class="admin-eyebrow">SERVICE DETAILS</p><h2 id="service-dialog-title">Edit service</h2></div><button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <input name="id" type="hidden">
+      <label>Service name<input name="name" required maxlength="80"></label>
+      <label>Description<textarea name="description" rows="4" required maxlength="300"></textarea></label>
+      <label class="switch-row"><span><strong>Visible on your website</strong><small>Hidden services stay saved in your dashboard.</small></span><input name="visible" type="checkbox"><i></i></label>
+      <div class="dialog-actions"><button class="secondary-button" type="button" data-close-dialog>Cancel</button><button class="primary-button" type="submit">Save service</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="admin-dialog inquiry-dialog" id="inquiry-dialog" aria-labelledby="inquiry-dialog-title">
+    <div class="dialog-heading"><div><p class="admin-eyebrow">PROJECT INQUIRY</p><h2 id="inquiry-dialog-title">Inquiry details</h2></div><button class="icon-button" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+    <div id="inquiry-detail"></div>
+    <div class="dialog-actions"><button class="secondary-button" type="button" data-close-dialog>Close</button><a class="primary-button" id="reply-inquiry" href="#">Reply by email</a></div>
+  </dialog>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+</body>
+</html>
